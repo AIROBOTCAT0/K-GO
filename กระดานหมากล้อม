@@ -6,7 +6,7 @@
 <title>เว็บหมากล้อม - Joseki</title>
 <style>
   body { font-family: Arial, sans-serif; margin: 20px; }
-  #board { margin: auto; display: block; }
+  #board { margin: auto; display: block; border: 1px solid #333; }
 </style>
 </head>
 <body>
@@ -26,12 +26,10 @@
     ctx.strokeStyle = 'black';
     for(let i = 0; i < size; i++) {
       ctx.beginPath();
-      // เส้นแนวนอน
       ctx.moveTo(cellSize / 2, cellSize / 2 + i * cellSize);
       ctx.lineTo(canvas.width - cellSize / 2, cellSize / 2 + i * cellSize);
       ctx.stroke();
 
-      // เส้นแนวตั้ง
       ctx.beginPath();
       ctx.moveTo(cellSize / 2 + i * cellSize, cellSize / 2);
       ctx.lineTo(cellSize / 2 + i * cellSize, canvas.height - cellSize / 2);
@@ -39,7 +37,7 @@
     }
   }
 
-  // วาดหมาก
+  // วาดหมากดำ/ขาว
   let boardState = Array(size).fill(null).map(() => Array(size).fill(null));
   let currentTurn = 'black';
 
