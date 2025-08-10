@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>เว็บหมากล้อม - Joseki</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  #board { margin: auto; display: block; }
+</style>
+</head>
+<body>
+<h2>เว็บหมากล้อม Joseki แบบง่าย</h2>
+<canvas id="board" width="360" height="360"></canvas>
+<script>
+  const canvas = document.getElementById('board');
+  const ctx = canvas.getContext('2d');
+  const size = 19;
+  const cellSize = canvas.width / size;
+
+  // วาดกระดาน
+  function drawBoard() {
+    ctx.fillStyle = '#DEB887';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = 'black';
+    for(let i = 0; i < size; i++) {
+      ctx.beginPath();
+      // เส้นแนวนอน
+      ctx.moveTo(cellSize / 2, cellSize / 2 + i * cellSize);
+      ctx.lineTo(canvas.width - cellSize / 2, cellSize / 2 + i * cellSize);
+      ctx.stroke();
+
+      // เส้นแนวตั้ง
+      ctx.beginPath();
+      ctx.moveTo(cellSize / 2 + i * cellSize, cellSize / 2);
+      ctx.lineTo(cellSize / 2 + i * cellSize, canvas.height - cellSize / 2);
+      ctx.stroke();
+    }
+  }
+
+  // วาดหมาก
+  let boardState = Array(size).fill(null).map(() => Array(size).fill(null));
+  let currentTurn = 'black';
+
+  function drawStone(x, y, color) {
+    ctx.beginPath();
+    ctx.arc(cellSize / 2 + x * cellSize, cellSize / 2 + y * cellSize, cellSize / 2 - 2, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  canvas.addEventListener('click', e => {
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / cellSize);
+    const y = Math.floor((e.clientY - rect.top) / cellSize);
+    if(boardState[y][x] === null) {
+      boardState[y][x] = currentTurn;
+      drawStone(x, y, currentTurn);
+      currentTurn = currentTurn === 'black' ? 'white' : 'black';
+    }
+  });
+
+  drawBoard();
+</script>
+</body>
+</html>
